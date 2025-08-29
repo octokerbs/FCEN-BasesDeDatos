@@ -11,14 +11,10 @@
             "id": "d1d4c6eeb8b51cc6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "2025-08-27.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "2025-08-27"
+              "title": "New tab"
             }
           }
         ]
@@ -168,7 +164,7 @@
       "tldraw:Create new tldrawing": false
     }
   },
-  "active": "d1d4c6eeb8b51cc6",
+  "active": "a1ea787ef877bf41",
   "lastOpenFiles": [
     "MailDesk.md",
     "Teoria de la informacion.md",

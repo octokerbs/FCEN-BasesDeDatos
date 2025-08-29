@@ -10,6 +10,10 @@ async function readAndParseCSV(filePath) {
 
 }
 
+async function getFirstStudentThatNeedsCertificate(pgClient) {
+
+}
+
 async function refreshStudentTableFromCSV(pgClient, studentLinesArray, columns) {
     await pgClient.query("DELETE FROM aida.alumnos");
     for (const line of studentLinesArray) {
