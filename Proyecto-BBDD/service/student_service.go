@@ -77,31 +77,50 @@ func GetFirstStudentThatNeedsCertificate(db *sql.DB) (*models.Student, error) {
 	return &alumno, nil
 }
 
-func traverse(n *html.Node) {
-	if n.Type == html.ElementNode {
-		if n.FirstChild != nil {
-			fmt.Println(n.FirstChild.Data)
-		}
+func replacePlaceholder(n *html.Node, placeholder, newValue string) {
+	if n.Type == html.TextNode && strings.TrimSpace(n.Data) == placeholder {
+		n.Data = newValue
 	}
+
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		traverse(c)
+		replacePlaceholder(c, placeholder, newValue)
 	}
 }
 
 func GenerateStudentCertificate(pathPlantilla string, student *models.Student) error {
-	file, err := os.Open(pathPlantilla)
+	f, err := os.Open(pathPlantilla)
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
-	defer file.Close()
+	defer f.Close()
 
-	doc, err := html.Parse(file)
+	doc, err := html.Parse(f)
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 
-	traverse(doc)
+	// Hardcoded, I don't like reflections.
+	replacePlaceholder(doc, "[#lu]", student.LU.String)
+	replacePlaceholder(doc, "[#apellido] [#nombres]", student.Apellido.String+" "+student.Nombre.String)
+	replacePlaceholder(doc, "[#titulo]", student.Titulo.String)
+	replacePlaceholder(doc, "[#titulo_en_tramite]", student.TituloEnTramite.Time.String())
+	replacePlaceholder(doc, "[#egreso]", student.Egreso.Time.Format(
+		"02/01/2006",
+	))
 
-	//fmt.Printf("student: %+v\n", student)
+	out, err := os.Create("resources/certificado-para-imprimir.html")
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	if err := html.Render(out, doc); err != nil {
+		return err
+	}
+
+	log.Printf("Certificate generated successfully for student: %s \n.", student.LU.String)
+
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 
 	"github.com/octokerbs/Proyecto-BBDD/database"
 	"github.com/octokerbs/Proyecto-BBDD/service"
@@ -12,7 +13,7 @@ import (
 
 func main() {
 	args := os.Args[1:]
-	fmt.Printf("%d Arguments: %v\n", len(args), args)
+	log.Printf("%d Arguments: %v\n", len(args), args)
 
 	conn, err := database.Connect()
 	if err != nil {
@@ -40,5 +41,11 @@ func main() {
 		if err := service.GenerateStudentCertificate("resources/plantilla-certificado.html", student); err != nil {
 			log.Fatal("Error generating certificate:", err)
 		}
+	}
+
+	cmd := exec.Command("xdg-open", "resources/certificado-para-imprimir.html")
+	err = cmd.Start() // Use Start instead of Run to not block
+	if err != nil {
+		log.Fatal(err)
 	}
 }
