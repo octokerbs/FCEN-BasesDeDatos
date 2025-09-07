@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/octokerbs/Proyecto-BBDD/database"
 	"github.com/octokerbs/Proyecto-BBDD/service"
@@ -10,6 +11,9 @@ import (
 )
 
 func main() {
+	args := os.Args[1:]
+	fmt.Printf("%d Arguments: %v\n", len(args), args)
+
 	conn, err := database.Connect()
 	if err != nil {
 		log.Fatal("Error connecting to database:", err)
@@ -33,7 +37,7 @@ func main() {
 	if student == nil {
 		fmt.Println("No hay estudiantes que necesiten certificado")
 	} else {
-		if err := service.GenerateStudentCertificate(student); err != nil {
+		if err := service.GenerateStudentCertificate("resources/plantilla-certificado.html", student); err != nil {
 			log.Fatal("Error generating certificate:", err)
 		}
 	}

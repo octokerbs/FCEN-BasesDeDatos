@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/octokerbs/Proyecto-BBDD/models"
+	"golang.org/x/net/html"
 )
 
 func RefreshStudentTableFromCSV(db *sql.DB, studentLines [][]string, columns []string) error {
@@ -75,7 +77,31 @@ func GetFirstStudentThatNeedsCertificate(db *sql.DB) (*models.Student, error) {
 	return &alumno, nil
 }
 
-func GenerateStudentCertificate(student *models.Student) error {
-	fmt.Printf("student: %+v\n", student)
+func traverse(n *html.Node) {
+	if n.Type == html.ElementNode {
+		if n.FirstChild != nil {
+			fmt.Println(n.FirstChild.Data)
+		}
+	}
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		traverse(c)
+	}
+}
+
+func GenerateStudentCertificate(pathPlantilla string, student *models.Student) error {
+	file, err := os.Open(pathPlantilla)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	doc, err := html.Parse(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	traverse(doc)
+
+	//fmt.Printf("student: %+v\n", student)
 	return nil
 }
