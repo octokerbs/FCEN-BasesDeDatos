@@ -6,9 +6,8 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/octokerbs/Proyecto-BBDD/service/postgres"
-	"github.com/octokerbs/Proyecto-BBDD/service/student"
-	"github.com/octokerbs/Proyecto-BBDD/utils"
+	"github.com/octokerbs/Proyecto-BBDD/internal/postgres"
+	"github.com/octokerbs/Proyecto-BBDD/internal/student"
 )
 
 func main() {
@@ -21,7 +20,7 @@ func main() {
 	}
 	defer aConnection.Close()
 
-	anArrayOfStudentLines, anArrayOfColumns, err := utils.ReadAndParseCSV("resources/alumnos.csv")
+	anArrayOfStudentLines, anArrayOfColumns, err := ReadAndParseCSV("resources/alumnos.csv")
 	if err != nil {
 		log.Fatal("Error reading CSV:", err)
 	}
