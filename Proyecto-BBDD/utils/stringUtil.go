@@ -2,8 +2,8 @@ package utils
 
 import "fmt"
 
-func ValueToString(value any) (string, error) {
-	switch v := value.(type) {
+func ValueToString(aValue any) (string, error) {
+	switch v := aValue.(type) {
 	case string:
 		return v, nil
 	case int, int64, float64, float32:

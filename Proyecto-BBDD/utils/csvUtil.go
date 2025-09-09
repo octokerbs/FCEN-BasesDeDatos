@@ -7,26 +7,27 @@ import (
 	"strings"
 )
 
-func ReadAndParseCSV(filePath string) ([][]string, []string, error) {
-	file, err := os.Open(filePath)
+func ReadAndParseCSV(aFilePath string) ([][]string, []string, error) {
+	aFile, err := os.Open(aFilePath)
 	if err != nil {
 		return nil, nil, fmt.Errorf("error opening file: %w", err)
 	}
-	defer file.Close()
+	defer aFile.Close()
 
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
+	aReader := csv.NewReader(aFile)
+	anArrayOfRecords, err := aReader.ReadAll()
 	if err != nil {
 		return nil, nil, fmt.Errorf("error reading CSV: %w", err)
 	}
-	if len(records) == 0 {
+
+	if len(anArrayOfRecords) == 0 {
 		return nil, nil, fmt.Errorf("CSV file is empty")
 	}
 
-	columns := make([]string, len(records[0]))
-	for i, col := range records[0] {
-		columns[i] = strings.TrimSpace(col)
+	anArrayOfColumnNames := make([]string, len(anArrayOfRecords[0]))
+	for i, col := range anArrayOfRecords[0] {
+		anArrayOfColumnNames[i] = strings.TrimSpace(col)
 	}
 
-	return records[1:], columns, nil
+	return anArrayOfRecords[1:], anArrayOfColumnNames, nil
 }

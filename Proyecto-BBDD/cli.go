@@ -6,45 +6,45 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/octokerbs/Proyecto-BBDD/database"
-	"github.com/octokerbs/Proyecto-BBDD/service"
+	"github.com/octokerbs/Proyecto-BBDD/service/postgres"
+	"github.com/octokerbs/Proyecto-BBDD/service/student"
 	"github.com/octokerbs/Proyecto-BBDD/utils"
 )
 
 func main() {
-	args := os.Args[1:]
-	log.Printf("%d Arguments: %v\n", len(args), args)
+	anArrayOfArguments := os.Args[1:]
+	log.Printf("%d Arguments: %v\n", len(anArrayOfArguments), anArrayOfArguments)
 
-	conn, err := database.Connect()
+	aConnection, err := postgres.Connect()
 	if err != nil {
 		log.Fatal("Error connecting to database:", err)
 	}
-	defer conn.Close()
+	defer aConnection.Close()
 
-	studentLines, columns, err := utils.ReadAndParseCSV("resources/alumnos.csv")
+	anArrayOfStudentLines, anArrayOfColumns, err := utils.ReadAndParseCSV("resources/alumnos.csv")
 	if err != nil {
 		log.Fatal("Error reading CSV:", err)
 	}
 
-	if err := service.RefreshStudentTableFromCSV(conn, studentLines, columns); err != nil {
+	if err := student.RefreshStudentTableFromCSV(aConnection, anArrayOfStudentLines, anArrayOfColumns); err != nil {
 		log.Fatal("Error refreshing student table:", err)
 	}
 
-	student, err := service.GetFirstStudentThatNeedsCertificate(conn)
+	aStudent, err := student.GetFirstStudentThatNeedsCertificate(aConnection)
 	if err != nil {
 		log.Fatal("Error getting student:", err)
 	}
 
-	if student == nil {
+	if aStudent == nil {
 		fmt.Println("No hay estudiantes que necesiten certificado")
 	} else {
-		if err := service.GenerateStudentCertificate("resources/plantilla-certificado.html", student); err != nil {
+		if err := student.GenerateStudentCertificate("resources/plantilla-certificado.html", aStudent); err != nil {
 			log.Fatal("Error generating certificate:", err)
 		}
 	}
 
-	cmd := exec.Command("xdg-open", "resources/certificado-para-imprimir.html")
-	err = cmd.Start() // Use Start instead of Run to not block
+	aCommandLineInstruction := exec.Command("xdg-open", "resources/certificado-para-imprimir.html")
+	err = aCommandLineInstruction.Start() // Use Start instead of Run to not block
 	if err != nil {
 		log.Fatal(err)
 	}
