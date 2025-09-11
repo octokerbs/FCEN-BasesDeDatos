@@ -20,7 +20,7 @@ func main() {
 	}
 	defer aConnection.Close()
 
-	anArrayOfStudentLines, anArrayOfColumns, err := ReadAndParseCSV("resources/alumnos.csv")
+	anArrayOfStudentLines, anArrayOfColumns, err := ReadAndParseCSV("../resources/alumnos.csv")
 	if err != nil {
 		log.Fatal("Error reading CSV:", err)
 	}
@@ -37,12 +37,12 @@ func main() {
 	if aStudent == nil {
 		fmt.Println("No hay estudiantes que necesiten certificado")
 	} else {
-		if err := student.GenerateStudentCertificate("resources/plantilla-certificado.html", aStudent); err != nil {
+		if err := student.GenerateStudentCertificate("../resources/plantilla-certificado.html", aStudent); err != nil {
 			log.Fatal("Error generating certificate:", err)
 		}
 	}
 
-	aCommandLineInstruction := exec.Command("xdg-open", "resources/certificado-para-imprimir.html")
+	aCommandLineInstruction := exec.Command("xdg-open", "../resources/certificado-para-imprimir.html")
 	err = aCommandLineInstruction.Start() // Use Start instead of Run to not block
 	if err != nil {
 		log.Fatal(err)

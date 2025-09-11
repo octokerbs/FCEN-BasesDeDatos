@@ -109,7 +109,7 @@ func GenerateStudentCertificate(aTemplatePath string, aStudent *Student) error {
 		"02/01/2006",
 	))
 
-	aNewHTMLFile, err := os.Create("resources/certificado-para-imprimir.html")
+	aNewHTMLFile, err := os.Create("../resources/certificado-para-imprimir.html")
 	if err != nil {
 		return err
 	}
