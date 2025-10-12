@@ -1,13 +1,13 @@
 {
   "cssTheme": "Minimal",
   "accentColor": "#89b4fa",
-  "baseFontSize": 18,
+  "baseFontSize": 15,
   "showViewHeader": false,
   "showRibbon": true,
-  "theme": "moonstone",
+  "theme": "obsidian",
   "enabledCssSnippets": [
     "headings"
   ],
-  "textFontFamily": "Charter",
+  "textFontFamily": "Times New Roman",
   "monospaceFontFamily": "JetBrainsMono Nerd Font"
 }
