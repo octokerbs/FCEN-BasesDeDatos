@@ -48,6 +48,18 @@
               "icon": "lucide-file",
               "title": "Control de Concurrencia"
             }
+          },
+          {
+            "id": "45648a5e17f2da06",
+            "type": "leaf",
+            "state": {
+              "type": "tldraw-view",
+              "state": {
+                "file": "assets/drawing2025-10-12 6.34PM.md"
+              },
+              "icon": "lucide-file",
+              "title": "drawing2025-10-12 6.34PM"
+            }
           }
         ],
         "currentTab": 1
@@ -199,9 +211,11 @@
   },
   "active": "5a2ff58719fd96b6",
   "lastOpenFiles": [
-    "Control de Concurrencia.md",
+    "assets/drawing2025-10-12 6.34PM.md",
     "Ejercicios.md",
+    "assets/7dfdf910-323a-4a89-a7f1-15579febe70e-tldrawFile.png",
     "Tipos de Historias.md",
+    "Control de Concurrencia.md",
     "Templates/mini-essay-template.md",
     "Untitled 1.md",
     "PO-Sistemas-KerbsOctavio.md",
@@ -223,8 +237,6 @@
     "Application Layer.md",
     "C essentials.md",
     "Data Link Layer.md",
-    "FreeRTOS.md",
-    "FreeRTOS Scheduler.md",
     "assets/Pasted image 20250920200109.png",
     "Sistemas Operativos - Sincronizacion entre Procesos - 2C2024 - Kerbs Octavio Dario.pdf",
     "snippets/headings.css",
@@ -237,7 +249,6 @@
     "assets/Pasted image 20250724172850.png",
     "assets/Pasted image 20250724163047.png",
     "assets/Pasted image 20250724161405.png",
-    "assets/Pasted image 20250724155953.png",
     "Excalidraw",
     "assets",
     "Untitled.canvas",

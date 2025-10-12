@@ -1,8 +1,8 @@
 {
   "embeds": {
-    "padding": 0,
-    "showBg": true,
-    "showBgDots": true
+    "padding": 20,
+    "showBg": false,
+    "showBgDots": false
   },
   "fileDestinations": {
     "confirmDestination": false,
