@@ -297,7 +297,77 @@ H2 = st1; r1(A); st2; r2(B); r2(A); w1(B)
 H3 = st1; st2; st3; r1(A); r2(B); w1(C); r3(B); r3(C); w2(B); w3(B)
 ```
 (a)
+```
+H1 = st1; st2; r1(A); r2(B); w2(A); w1(B)
+
+RTS(A) = 0
+RTS(B) = 0
+WTS(A) = 0
+WTS(B) = 0
+
+st1 -> TS(T1) = 1
+st2 -> TS(T2) = 2
+r1(A) -> RTS(A) = 1
+r2(B) -> RTS(B) = 2
+w2(A) -> WTS(A) = 2
+w1(B) -> Queremos escribir en B que fue leido por T2 cambiando su RTS a 1. T2 es mas joven, por lo que es rechazada.
+```
+
+```
+H2 = st1; r1(A); st2; r2(B); r2(A); w1(B)
+
+RTS(A) = 0
+RTS(B) = 0
+WTS(A) = 0
+WTS(B) = 0
+
+st1 -> TS(T1) = 1
+r1(A) -> RTS(A) = 1
+st2 -> TS(T2) = 2
+r2(B) -> RTS(B) = 2
+r2(A) -> RTS(A) = 2
+w1(B) -> Queremos escribir un B que fue leido por T2 cambiando su RTS a 1. T2 es mas joven, por lo que es rechazado.
+```
+
+```
+H3 = st1; st2; st3; r1(A); r2(B); w1(C); r3(B); r3(C); w2(B); w3(B)
+
+RTS(A) = 0
+RTS(B) = 0
+RTS(C) = 0
+WTS(A) = 0
+WTS(B) = 0
+WTS(C) = 0
+
+st1 -> TS(T1) = 1
+st2 -> TS(T2) = 2
+st3 -> TS(T3) = 3
+
+r1(A) -> RTS(A) = 1
+r2(B) -> RTS(B) = 2
+w1(C) -> WTS(C) = 3
+r3(B) -> RTS(B) = 3
+r3(C) -> RTS(C) = 3
+w2(B) -> Intenta escribir un valor con timestamp de lectura mas joven. Rechazada y abortada.
+w3(B) -> WTS(B) = 3  
+```
 (b)
+```
+H1 = st1; st2; r1(A); r2(B); w2(A); w1(B)
+
+RTS(A) = 0
+RTS(B) = 0
+WTS(A) = 0
+WTS(B) = 0
+
+st1 -> TS(T1) = 1
+st2 -> TS(T2) = 2
+r1(A) -> RTS(A0) = 1
+r2(B) -> RTS(B0) = 2
+w2(A) -> WTS(A2) = 2 y RTS(A2) = 2
+w1(B) -> WTS(B1) = 1
+
+```
 ## 4.2
 ```
 H1 = st1; st2; r2(X); st3; st4; r1(Y ); r4(Z); w3(X); w3(Y ); w4(Z); w2(X); w1(Y ); r3(Z)
