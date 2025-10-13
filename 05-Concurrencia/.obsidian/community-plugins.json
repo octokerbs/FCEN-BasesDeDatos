@@ -4,5 +4,8 @@
   "quick-latex",
   "better-export-pdf",
   "colored-text",
-  "tldraw"
+  "tldraw",
+  "obsidian-annotator",
+  "obsidian-pandoc",
+  "table-editor-obsidian"
 ]

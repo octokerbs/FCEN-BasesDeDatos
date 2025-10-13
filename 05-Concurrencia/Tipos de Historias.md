@@ -28,14 +28,20 @@ RC = "puedes leer borradores, pero no podes publicar tu artículo hasta que veas
 ## ACA (Avoids Cascading Aborts)
 Una historia es **ACA** si las transacciones leen solo de transacciones ya commiteadas. No estamos leyendo nada que puede ser abortado.
 ```
-ACA = "no lees borradores, solo cosas ya publicadas; así no te embarras."
+ACA = "No leas el trabajo de otro hasta que esté confirmado (`COMMIT`)".
 ```
 
 ## ST (Stricta)
 Una historia es **ST** cuando las transacciones  leen o escriben un item solo si otra transaccion que la escribio previamente haya commiteado o abortado. Si una transaccion $T_j$ escribió el item $X$ entonces tenemos que esperar a que $T_j$ commitee o aborte para poder leer o escribir $X$.
 ```
-ST = "ni lees ni reescribes borradores ajenos; esperas a que estén en la revista."
+ST = "No leas NI escribas sobre el trabajo de otro hasta que esté confirmado"
 ```
+
+Que una historia sea estricta no implica que sea serial.
+
+`H1: w1(A); w2(B); c1; c2;`
+- **¿Es Serial?** No. Las operaciones están entrelazadas (`w1` de T1, luego `w2` de T2, luego `c1` de T1, etc.).
+- **¿Es Estricta?** Sí. T2 no lee ni escribe sobre el dato A (modificado por T1) antes de que T1 haga `COMMIT`. Y T1 no toca el dato B. No hay violación de la regla estricta.
 
 ## Dirty Read
 Una transaccion escribe un valor que leyo antes de que otra transaccion la escriba y comitee.
