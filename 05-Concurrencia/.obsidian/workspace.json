@@ -187,22 +187,24 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "tldraw:Create new tldrawing": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
       "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "tldraw:Create new tldrawing": false
+      "command-palette:Open command palette": false
     }
   },
   "active": "5a2ff58719fd96b6",
   "lastOpenFiles": [
     "Control de Concurrencia.md",
-    "Tipos de Historias.md",
     "Ejercicios.md",
+    "assets/drawing2025-10-13 5.07AM.md",
+    "assets/8743c916-054e-414c-83dd-f113247891e2-tldrawFile.png",
+    "Tipos de Historias.md",
     "assets/drawing2025-10-13 1.47AM.md",
     "assets/e0b4c2b5-826f-4348-a002-f9a5a86c1dec-tldrawFile.png",
     "assets/drawing2025-10-13 1.28AM.md",
@@ -231,13 +233,11 @@
     "Session Layer.md",
     "Physical Layer.md",
     "OSI Model.md",
-    "FreeRTOS Naming Conventions.md",
     "assets/Pasted image 20250920200109.png",
     "Sistemas Operativos - Sincronizacion entre Procesos - 2C2024 - Kerbs Octavio Dario.pdf",
     "snippets/headings.css",
     "snippets",
     "assets/Pasted image 20250915025620.png",
-    "assets/Pasted image 20250914232648.png",
     "Excalidraw",
     "assets",
     "Untitled.canvas",

@@ -26,3 +26,16 @@ Si el grafo no tiene ciclos, el orden de la historia serial equivalente se obtie
 ![[drawing2025-10-13 12.38AM]]
 Elegimos primero al nodo sin aristas entrantes. T3, lo sacamos. Nos queda T1 y T2, sacamos nuevamente el nodo sin arisstas entrantes (al sacar T3, ahora queda T1 sin aristas entrantes), finalmente nos queda T2 solo,
 Por lo tanto, el orden topologico es $T_{3}\rightarrow T_{1}\rightarrow T_{2}$ 
+
+## Wait-Die
+```
+"Si eres más viejo, esperas; si eres más joven, mueres".
+```
+- **Si Ti es más antigua que Tj**: Ti **espera** a que Tj libere el recurso.
+- **Si Ti es más joven que Tj**: Ti **muere** (es abortada y reiniciada).
+## Wound-Wait
+```
+"Si eres más viejo, hieres; si eres más joven, esperas".
+```
+- Si una persona mayor (transacción antigua) llega y encuentra a una persona joven (transacción joven) usando el cajero, la persona mayor le pide que se quite (**hiere**) para usarlo ella.
+- Si una persona joven (transacción joven) llega y encuentra a una persona mayor (transacción antigua) usándolo, la persona joven **espera**.

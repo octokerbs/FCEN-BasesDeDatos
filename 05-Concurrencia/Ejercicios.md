@@ -204,3 +204,205 @@ H1 = rl3(X); rl2(X); wl3(Y); u3(X); wl2(X); u3(Y); rl4(Y); u2(X); rl1(Y); rl4(X)
 
 H1' = rl3(X); rl2(X); wl3(Y); wl2(X); rl4(Y); rl1(Y); rl4(X); u1(Y); wl1(X); u3(X); c3; u3(Y); c2; u2(X); u4(X); u4(Y); c1; u1(X); c4;
 ```
+
+## 3.7
+```
+T1 = rl1(B); u1(B); wl1(A); u1(A)
+T2 = rl2(A); wl2(A); u2(A)
+T3 = rl3(A); rl3(B); u3(A); u3(B)
+```
+No tengo ganas hoy.
+
+## 3.8
+```
+T1 = rl1(A); r1(A); rl1(B); r1(B); wl1(B); w1(B); u1(A); u1(B)
+T2 = rl2(A); r2(A); rl2(B); r2(B); u2(A); u2(B)
+```
+(a)
+```
+H = rl1(A); r1(A); rl1(B); r1(B); rl2(A); r2(A); rl2(B); r2(B); u2(A); u2(B); wl1(B); w1(B); u1(A); u1(B)
+```
+(b)
+```
+H = rl1(A); r1(A); rl1(B); r1(B); rl2(A); r2(A); rl2(B); r2(B); wl1(B); u2(A); u2(B); w1(B); u1(A); u1(B); 
+```
+
+## 3.9
+```
+T1 = rl1(A); r1(A); wl1(A); w1(A); u1(A)
+T2 = rl2(A); r2(A); wl2(A); w2(A); u2(A)
+```
+(a)
+```
+H = rl1(A); rl2(A); r1(A); r2(A); wl1(A); wl2(A); w1(A); w2(A); u2(A); u1(A);
+```
+- T1 esta esperando que T2 libere su bloqueo de lectura (rl2) para poder obtener su bloqueo de escritura (wl1).
+- T2 esta esperando que T1 libere su bloqueo de lectura (rl1) para poder obtener su bloqueo de escritura (wl2).
+
+(b)
+El update lock previene el escenario del deadlock, ya que evita que dos transacciones obtengan simultáneamente un bloqueo "con intención de escribir" sobre el mismo dato.
+Las transacciones se modifican para solicitar un `update lock` en lugar del `read lock` inicial.
+```
+T1 = ul1(A); r1(A); wl1(A); w1(A); u1(A)
+T2 = ul2(A); r2(A); wl2(A); w2(A); u2(A)
+
+H = ul1(A); ul2(A); r1(A); wl1(A); w1(A); u1(A); r2(A); wl2(A); w2(A); u2(A);
+```
+## 3.11
+
+```
+T1 = l1(A); r1(A); l1(B); w1(B); u1(A); u1(B)
+T2 = l2(C); r2(C); l2(A); w2(A); u2(C); u2(A)
+T3 = l3(B); r3(B); l3(C); w3(C); u3(B); u3(C)
+T4 = l4(D); r4(D); l4(A); w4(A); u4(D); u4(A)
+```
+(a)
+```
+T1` = rl1(A); r1(A); wl1(B); w1(B); u1(A); u1(B)
+T2` = rl2(C); r2(C); wl2(A); w2(A); u2(C); u2(A)
+T3` = rl3(B); r3(B); wl3(C); w3(C); u3(B); u3(C)
+T4` = rl4(D); r4(D); wl4(A); w4(A); u4(D); u4(A)
+```
+
+(b)
+```
+H = rl1(A); rl2(C); rl3(B); rl4(D); r1(A); r2(C); r3(B); r4(D); wl1(B); wl2(A); wl3(C); wl4(A); w1(B); u1(A); u1(B); w2(A); u2(C); u2(A); w3(C); u3(B); u3(C); w4(A); u4(D); u4(A)
+```
+
+(c)
+![[drawing2025-10-13 5.07AM]]
+(d)
+no se, tengo sueno
+
+## 3.12
+
+
+## 3.13
+```
+s = wl1(A); rl1(B); u1(B); wl3(C); wl2(B); rl3(D); u3(C); rl2(C); wl3(D); u2(B); u3(D); u1(A); u2(C); c3; c1; c2
+```
+(a) F. Porque  rl1(B) < u1(B) < wl3(C)
+(b) F. Porque no se encuentra en el schedule ningun $ul_i(X)$.
+(c) V. Se puede ver en rl3(D) < wl3(D); < c3. Se upgradea de lectura a escritura.
+(d) Ni ganas de hacer el grafico. Deberiamos hacer el grafo de precedencia y buscar todos los ordenes topograficos.
+(e) V. rl2(C) puede leer lo escrito por wl3(C) y c3 < c2. O sea, primero se commitea lo que se escribio y despues se commitea lo leido de lo commiteado. Es recuperable.
+(f) F. Todos los commits estan despues de las operaciones de las transacciones. Nunca estamos basando nuestra informacion en cosas commiteadas.
+
+# 4 - Metodos con timestamping y Multiversion
+
+## 4.1
+```
+H1 = st1; st2; r1(A); r2(B); w2(A); w1(B)
+H2 = st1; r1(A); st2; r2(B); r2(A); w1(B)
+H3 = st1; st2; st3; r1(A); r2(B); w1(C); r3(B); r3(C); w2(B); w3(B)
+```
+(a)
+(b)
+## 4.2
+```
+H1 = st1; st2; r2(X); st3; st4; r1(Y ); r4(Z); w3(X); w3(Y ); w4(Z); w2(X); w1(Y ); r3(Z)
+
+T1 escribe Y = 1
+T2 escribe X = 2
+T3 escribe X = 3; Y = 30
+T4 escribe Z = 4
+```
+(a)
+(b)
+## 4.3
+```
+T1 = r1(A); r1(B); w1(X); w1(B)
+T2 = r2(C); r2(B); r2(A); w2(A); w2(B)
+T3 = r3(B); r3(X); w3(A); w3(B)
+```
+(a)
+## 4.4
+```
+s1 = r1(A); r2(A); w1(A); r3(A); w3(A); w2(A)
+s2 = r1(A); r3(C); r2(C); w3(A); r2(B); r3(B); w2(B); w2(A)
+```
+(a)
+## 4.5
+```
+H1 = st2; r2(Z); r2(Y); w2(Y); st3; r3(Y); r3(Z); st1; r1(X); w1(X); w3(Y); w3(Z); r2(X); r1(Y); w1(Y); w1(X)
+H2 = st3; r3(Y); r3(Z); st1; r1(X); w1(X); w3(Y); w3(Z); st2; r2(Z); r1(Y); w1(Y); r2(Y); w2(Y); r2(X); w2(X)
+```
+(a)
+(b)
+(c)
+## 4.6
+```
+T1 = r1(A); r1(B); w1(A)
+T2 = r2(B); r2(C); w2(A)
+T3 = r3(C); r3(B); w3(B)
+```
+(a)
+## 4.7
+```
+H = st1; st2; r2(X); st3; st4; r1(Y); r4(Z); w3(X); w3(Y); w4(Z); w2(X); w1(Y); r3(Z)
+
+Suponer que t1 escribe Y = 10, t2 escribe X = 8, t3 escribe X = 2 e Y = 4, t4 escribe Z = 6
+```
+
+# 5 - Recuperabilidad
+## 5.1
+```
+H = r1(Z); w1(U ); c1; w2(X); w2(Y ); r3(U ); w3(X); w2(Z); c2; r3(Y ); r4(Z); w3(Y ); c3; r4(U ); w4(U ); c4
+```
+(a)
+(b)
+(c)
+## 5.2
+```
+< ST ART T1 >; < T1, A, 10 >; < ST ART T2 >; < T2, B, 20 >; < ST ART T12 >
+< T1, C, 30 >; < T2, D, 40 >; < COM M IT T2 >; < T12, R, 12 >; < T1, E, 50 >;
+< ABORT T 12 >< COM M IT T 1 >
+```
+(a)
+(b)
+(c)
+(d)
+## 5.3
+```
+< ST ART T1 >; < T1, A, 8 >; < ST ART T2 >; < ST ART T3 >< T2, B, 16 >;
+< ST ART T4 >; < T4, E, 24 >; < T2, D, 32 >; < T 4, K, 9 >; < T4, F, 40 >;
+< ABORT T 4 >; < COM M IT T3 >; < T2, G, 48 >; < COM M IT T2 >; < T1, C, 56 >;
+< COM M IT T1 >
+```
+(a)
+(b)
+## 5.4
+```
+< ST ART T1 >; < T1, A, 100, 110 >; < ST ART T2 >; < T2, B, 200, 210 >;
+< ST ART T 3 >; < T1, C, 300, 310 >; < T3, D, 400, 410 >; < T2, E, 40, 41 >;
+< T3, F, 500, 510 >; < COM M IT T3 >; < COM M IT T2 >; < ST ART T4 >;
+< T1, G, 600, 610 >; < T4, H, 700, 710 >; < COM M IT T1 >; < COM M IT T4 >
+```
+(a)
+(b)
+(c)
+(d)
+## 5.5
+```
+< ST ART T1 >; < T1, A, 60 >; < COM M IT T1 >; < ST ART T2 >; < T2, A, 10 >;
+< ST ART T3 >; < T3, B, 20 >; < T2, C, 30 >; < ST ART T4 >; < T3, D, 40 >;
+< T4, F, 70 >; < COM M IT T3 >; < T2, E, 50 >; COM M IT T2 >; < T4, B, 80 >;
+< COM M IT T4 >
+
+1) < T1, A, 60 >
+2) < T2, A, 10 >
+3) < T3, B, 20 >
+4) < T3, D, 40 >
+5) < T2, E, 50 >
+```
+(a)
+(b)
+## 5.6
+```
+```
+## 5.7
+```
+```
+## 5.8
+```
+```
