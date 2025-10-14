@@ -365,12 +365,49 @@ st2 -> TS(T2) = 2
 r1(A) -> RTS(A0) = 1
 r2(B) -> RTS(B0) = 2
 w2(A) -> WTS(A2) = 2 y RTS(A2) = 2
-w1(B) -> WTS(B1) = 1
+w1(B) -> Se rechaza porque una operacion mas joven (T2) ya leyo a B. No podemos escribirla con el timestamp de una operacion mas vieja.
+```
 
+```
+H2 = st1; r1(A); st2; r2(B); r2(A); w1(B)
+
+RTS(A) = 0
+RTS(B) = 0
+WTS(A) = 0
+WTS(B) = 0
+
+st1 -> TS(T1) = 1
+r1(A) -> RTS(A0) = 1
+st2 -> TS(T2) = 2
+r2(B) -> RTS(B0) = 2
+r2(A) -> RTS(A0) = 2
+w1(B) -> Aborta porque queremos modificar un read mas joven.
+```
+
+```
+H3 = st1; st2; st3; r1(A); r2(B); w1(C); r3(B); r3(C); w2(B); w3(B)
+
+RTS(A) = 0
+RTS(B) = 0
+RTS(C) = 0
+WTS(A) = 0
+WTS(B) = 0
+WTS(C) = 0
+
+st1 -> TS(T1) = 1
+st2 -> TS(T2) = 2
+st3 -> TS(T3) = 3
+r1(A) -> RTS(A0) = 1
+r2(B) -> RTS(B0) = 2
+w1(C) -> WTS(C1) = 1 y RTS(C1) = 1
+r3(B) -> RTS(B3) = 3
+r3(C) -> RTS(C1) = 3
+w2(B) -> Aborta porque queremos escribir algo que es mas nuevo.
+w3(B) -> Aceptada. WTS(B3) = 3 y RTS(B3) = 3.
 ```
 ## 4.2
 ```
-H1 = st1; st2; r2(X); st3; st4; r1(Y ); r4(Z); w3(X); w3(Y ); w4(Z); w2(X); w1(Y ); r3(Z)
+H1 = st1; st2; r2(X); st3; st4; r1(Y); r4(Z); w3(X); w3(Y); w4(Z); w2(X); w1(Y); r3(Z)
 
 T1 escribe Y = 1
 T2 escribe X = 2
@@ -378,6 +415,42 @@ T3 escribe X = 3; Y = 30
 T4 escribe Z = 4
 ```
 (a)
+```
+X = 0
+Y = 0
+Z = 0
+
+RT(X) = 0
+RT(Y) = 0
+RT(Z) = 0
+
+WT(X) = 0
+WT(Y) = 0
+WT(Z) = 0
+```
+
+| Tiempo | T1      | T2      | T3      | T4      | Situacion                                                                                                                                                 |     |
+| ------ | ------- | ------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| 1      | st1=100 |         |         |         | Se lanza T1 con timestamp 100                                                                                                                             |     |
+| 2      |         | st2=200 |         |         | Se lanza T2 con timestamp 200                                                                                                                             |     |
+| 3      |         | r2(X)   |         |         | TS(T2) >= WT(X) y  TS(T2) >= RT(X) $\implies$ RT(X) = 200                                                                                                 |     |
+| 4      |         |         | st3=300 |         | Se lanza T3 con timestamp 300                                                                                                                             |     |
+| 5      |         |         |         | st4=400 | Se lanza T4 con timestamp 400                                                                                                                             |     |
+| 6      | r1(Y)   |         |         |         | TS(T1) >= WT(Y) y TS(T1) >= RT(Y) $\implies$ RT(Y) = 100                                                                                                  |     |
+| 7      |         |         |         | r4(Z)   | TS(T4) >= WT(Z) y TS(T4) >= RT(Z) $\implies$ RT(Z) = 400                                                                                                  |     |
+| 8      |         |         | w3(X)   |         | TS(T3) >= RT(X) y TS(T3) >= WT(X) $\implies$ WT(X) = 300 y X = 3 y C(X) = false                                                                           |     |
+| 9      |         |         | w3(Y)   |         | TS(T3) >= RT(Y) y TS(T3) >= WT(Y) $\implies$ WT(Y) = 300 y Y = 30 y C(Y) = false                                                                          |     |
+| 10     |         |         |         | w4(Z)   | TS(T4) >= RT(Z) y TS(T4) >= WT(Z) $\implies$ WT(Z) = 400 y Z = 4 y C(Z) = false                                                                           |     |
+| 11     |         | w2(X)   |         |         | TS(T2) >= RT(X) y TS(T2) < WT(X) y C(X) = false $\implies$ Demoramos w2(X) hasta que el timestamp que lo modifico termine. Hasta que T3 termine o aborte. |     |
+| 12     | w1(Y)   |         |         |         | TS(T1) >= RT(Y) t TS(T1) < WT(Y) -> Demoramos w1(Y) hasta que el timestamp que lo modifico termine. Hasta que T3 termine o aborte.                        |     |
+| 13     |         |         | r3(Z)   |         | TS(T3) < WT(Z) -> Read invalido. Queremos leer algo que es escrito a futuro y va a ser invalido. Ejecutamos w2(X) -> X = 2. Ejecutamos w1(Y) -> Y=1.      |     |
+Como aborta T3 y terminan T1, T2 y T4 entonces los valores finales son: 
+```
+X = 2
+Y = 1
+Z = 4
+```
+
 (b)
 ## 4.3
 ```
