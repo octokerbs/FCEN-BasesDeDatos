@@ -123,7 +123,7 @@ Para no tener que leer todas las fichas una por una, la base de datos usa un tru
 #### Paso 1: Usar el Cuaderno (Index Seek)
 La base de datos no mira el archivo gigante. Primero va a su **cuaderno de índice** que solo tiene dos columnas: `Ciudad` y `Nº de Ficha`.
 Encuentra "Mentor" muy rápido y anota el número de la ficha donde están esos datos. Por ejemplo, anota: "Ficha #583".
-Esto es el **Index Seek**. Es muy rápido, pero solo le dio la ubicación, no la información completa.
+Esto es el **Index Seek**. Es muy rápido, pero solo le dio la ubicación, no la información completa. Recorremos todo el heap (NONCLUSTERED) y buscamos la PK del elemento, luego con esa PK vamos al paso 2.
 
 #### Paso 2: Ir a Buscar la Ficha (Key Lookup)
 Ahora que sabe el número de la ficha (#583), va al **archivo gigante principal** y busca directamente esa ficha para sacar toda la información que pediste con `SELECT *` (la calle, el código postal, etc.).
