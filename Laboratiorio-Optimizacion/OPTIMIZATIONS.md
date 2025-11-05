@@ -48,6 +48,10 @@ Al aplicar la función `YEAR()` a la columna `fecha_creacion`, el motor de la
 
 ## Utilidad
 Sirve cuando el outer input es pequeño y el inner input es grande. 
+- Una de las tablas (la tabla **externa** o _outer_) es **pequeña** (pocas filas).
+- La tabla **interna** (o _inner_) tiene un **índice** eficiente en la columna de unión. Esto permite una búsqueda rápida por cada fila de la tabla externa.
+- Es la opción más simple y a menudo la más rápida para **conjuntos de datos pequeños** o cuando el criterio de unión es muy **selectivo**.
+- Se utiliza para todo tipo de uniones (_joins_), incluyendo las no equidad.
 ## Algoritmo
 Para cada fila en la `Tabla A` se itera sobre *todas* las filas de la `Tabla B` y se comparan las condiciones del `ON`. Si la compracion es exitosa, se envian las filas al output del `JOIN`. Es como un filtro algoritmico, no un producto cartesiano.
 
@@ -58,6 +62,11 @@ Para cada fila en la `Tabla A` se itera sobre *todas* las filas de la `Tabla B` 
 
 ## Utilidad
 Solo sirve si la junta tiene al menos un predicado de igualdad. Es un método eficiente para unir grandes conjuntos de datos, especialmente cuando los datos de entrada ya están ordenados por las claves de `JOIN` o se pueden ordenar de manera eficiente.
+
+- **Ambas entradas** de la unión ya están **ordenadas** por las columnas de la unión. Esto sucede comúnmente si las columnas de unión tienen **índices agrupados (clustered)** o si se realiza un escaneo de índice ordenado.
+- Es la operación de unión **más eficiente** para conjuntos de datos **grandes** si los datos ya están ordenados.
+- Si los datos no están ordenados, el optimizador podría insertar un operador `Sort` (ordenación) antes del `Merge Join`, lo que puede hacerlo **caro** para grandes volúmenes de datos debido al costo de la ordenación.
+- Se utiliza principalmente para uniones de **equidad** (_equi-joins_).
 ## Algoritmo 
 Hace uso del ordenamiento de las tablas por indice. Se asegura que las tablas esten ordenadas con respecto a la columna del join (o sea, trata de que esten ordenadas por la columna que usamos para comparar, en el ejemplo de abajo, ordena ambas tablas por su `ProductID`). Luego se tienen dos punteros indices, uno para cada tabla, y se van comparando las filas. 
 - Si el valor matchea, se juntan las filas y se agregan al output. Los dos punteros avanzan a la siguiente fila.
@@ -71,6 +80,15 @@ Hace uso del ordenamiento de las tablas por indice. Se asegura que las tablas es
 
 ## Utilidad 
 Solo sirve si la junta tiene al menos un predicado de igualdad. Es particularmente eficaz para conjuntos de datos grandes y cuando las columnas de clave de unión no tienen índices adecuados para otros tipos de `JOIN`.
+
+- Se unen **conjuntos de datos grandes** y **sin ordenar**.
+- **No hay índices** útiles para el _Merge Join_ o el _Nested Loop Join_.
+- Es una buena opción cuando el costo de ordenar los datos (para un _Merge Join_) sería mayor que el costo de crear la tabla hash.
+- Funciona mediante dos fases:
+    1. **Build (Construcción):** Crea una **tabla hash** en memoria con los datos de la entrada más pequeña.
+    2. **Probe (Sondeo):** Escanea la otra entrada y busca coincidencias en la tabla hash.
+- Requiere suficiente **memoria** para la tabla hash. Si no hay suficiente, utiliza `tempdb`, lo que puede reducir el rendimiento.
+- Se utiliza **solo** para uniones de **equidad** (_equi-joins_).
 ## Algoritmo
 
 ### Fase de construccion
