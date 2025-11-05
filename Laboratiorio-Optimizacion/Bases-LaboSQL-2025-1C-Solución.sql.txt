@@ -1,0 +1,94 @@
+-- Consulta 1
+-- Clientes con mayor gasto
+
+WITH GastosTotales(CustomerId, TotalGastado) AS (
+    SELECT
+        Customer.CustomerId,
+        SUM(Invoice.Total)
+    FROM Customer
+    INNER JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId
+    GROUP BY Customer.CustomerId
+)
+SELECT
+    Customer.FirstName,
+    Customer.LastName,
+    GastosTotales.TotalGastado
+FROM Customer
+INNER JOIN GastosTotales ON GastosTotales.CustomerId = Customer.CustomerId
+WHERE GastosTotales.TotalGastado > (
+    SELECT AVG(GastosTotales.TotalGastado)
+    FROM GastosTotales
+)
+ORDER BY GastosTotales.TotalGastado DESC
+GO
+
+-- Consulta 2
+-- Clientes con compras de distintos géneros
+
+WITH GenerosComprados(CustomerId, CantidadGeneros) AS (
+    SELECT
+        Invoice.CustomerId,
+        COUNT(DISTINCT Track.GenreId)
+    FROM Invoice
+    INNER JOIN InvoiceLine ON InvoiceLine.InvoiceId = Invoice.InvoiceId
+    INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId
+    GROUP BY Invoice.CustomerId
+)
+SELECT
+    Customer.FirstName,
+    Customer.LastName,
+    GenerosComprados.CantidadGeneros
+FROM Customer
+INNER JOIN GenerosComprados ON GenerosComprados.CustomerId = Customer.CustomerId
+WHERE GenerosComprados.CantidadGeneros > 1
+ORDER BY GenerosComprados.CantidadGeneros DESC
+GO
+
+-- Consulta 3
+-- Albumes con canciones más largas que el promedio
+
+WITH TrackCounts(AlbumId, TrackCount) AS (
+    SELECT
+        Track.AlbumId,
+        COUNT(*)
+    FROM Track
+    GROUP BY Track.AlbumId
+),
+LongTrackCounts(AlbumId, TrackCount) AS (
+    SELECT
+        Track.AlbumId,
+        COUNT(*)
+    FROM Track
+    WHERE Track.Milliseconds > (
+        SELECT AVG(Track.Milliseconds)
+        FROM Track
+    )
+    GROUP BY Track.AlbumId
+)
+SELECT
+    Album.Title
+FROM Album
+INNER JOIN LongTrackCounts ON LongTrackCounts.AlbumId = Album.AlbumId
+INNER JOIN TrackCounts ON TrackCounts.AlbumId = Album.AlbumId
+WHERE LongTrackCounts.TrackCount = TrackCounts.TrackCount
+ORDER BY Album.Title ASC
+GO
+
+-- Consulta 4
+-- Artistas con más de 10 álbumes
+
+WITH CantidadAlbumes(ArtistId, CantidadAlbumes) AS (
+    SELECT
+        Album.ArtistId,
+        COUNT(*)
+    FROM Album
+    GROUP BY Album.ArtistId
+)
+SELECT
+    Artist.Name,
+    CantidadAlbumes.CantidadAlbumes
+FROM Artist
+INNER JOIN CantidadAlbumes ON CantidadAlbumes.ArtistId = Artist.ArtistId
+WHERE CantidadAlbumes.CantidadAlbumes > 10
+ORDER BY CantidadAlbumes.CantidadAlbumes DESC
+GO

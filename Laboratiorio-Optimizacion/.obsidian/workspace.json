@@ -8,17 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "5a2ff58719fd96b6",
+            "id": "c5f445a389cb9493",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "OPTIMIZATIONS.md",
+                "file": "EjemploAulas.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "OPTIMIZATIONS"
+              "title": "EjemploAulas"
             }
           }
         ]
@@ -168,8 +168,21 @@
       "tldraw:Create new tldrawing": false
     }
   },
-  "active": "5a2ff58719fd96b6",
+  "active": "c5f445a389cb9493",
   "lastOpenFiles": [
+    "Apuntes.md",
+    "EjemploAulas.md",
+    "assets/drawing2025-11-04 8.05PM.md",
+    "EjemploAulas.sql",
+    "assets/Pasted image 20251104203701.png",
+    "assets/Pasted image 20251104203654.png",
+    "assets/drawing2025-11-04 8.27PM.md",
+    "Bases-LaboSQL-2025-1C-Solución.sql.txt",
+    "Bases-LaboSQL-2025-1C.pdf",
+    "Sin confirmar 378126.crdownload",
+    "Bases-LaboOptimización-2025-1C.pdf",
+    "Sin confirmar 719488.crdownload",
+    "OPTIMIZATIONS.md",
     "assets/Pasted image 20251017154930.png",
     "assets/Pasted image 20251017152019.png",
     "assets/Pasted image 20251017151951.png",
@@ -179,11 +192,7 @@
     "assets/Pasted image 20251017150548.png",
     "Ejercicios.sql",
     "assets/Pasted image 20251017140030.png",
-    "assets/Pasted image 20251017135426.png",
-    "assets/Pasted image 20251017133505.png",
-    "assets/Pasted image 20251017133436.png",
     "assets",
-    "OPTIMIZATIONS.md",
     "assets/drawing2025-10-12 6.34PM.md",
     "Ejercicios.md",
     "Tipos de Historias.md",
@@ -205,17 +214,8 @@
     "FreeRTOS Project Layout.md",
     "FreeRTOS Tasks.md",
     "Network Layer.md",
-    "AI Tools and Concepts.md",
-    "Application Layer.md",
-    "C essentials.md",
     "Sistemas Operativos - Sincronizacion entre Procesos - 2C2024 - Kerbs Octavio Dario.pdf",
     "snippets/headings.css",
-    "snippets",
-    "Excalidraw",
-    "Untitled.canvas",
-    "Metadata",
-    "Old Notes/SoftwareDesign",
-    "Old Notes/Java",
-    "Old Notes/Essays"
+    "Untitled.canvas"
   ]
 }

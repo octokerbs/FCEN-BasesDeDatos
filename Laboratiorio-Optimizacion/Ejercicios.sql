@@ -1,2 +1,2 @@
 SELECT *
-FROM Person.Address
+FROM dbo.Customer
