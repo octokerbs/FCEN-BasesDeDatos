@@ -12,12 +12,12 @@ SELECT
     and cols.object_id = ind_cols.object_id
     and cols.column_id = ind_cols.column_id
     and ind.index_id = ind_cols.index_id
-    and object_name(cols.object_id) LIKE 'Person'
+    and object_name(cols.object_id) LIKE 'Employee'
     order by object_name(cols.object_id), ind.name;
 
 SELECT TABLE_NAME, COLUMN_NAME, IS_NULLABLE, DATA_TYPE
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE table_name = 'Person';
+WHERE table_name = 'Employee';
 
 -- 1
 SELECT P.Name , P.ProductNumber
@@ -176,12 +176,83 @@ ORDER BY psc.ProductSubcategoryID
 -- Person	Demographics	        XMLPROPERTY_Person_Demographics	        XML	            0
 -- Person	Demographics	        XMLVALUE_Person_Demographics	        XML	            0
 
+-- Person	BusinessEntityID	    NO	int
+-- Person	PersonType	            NO	nchar
+-- Person	NameStyle	            NO	bit
+-- Person	Title	                YES	nvarchar
+-- Person	FirstName	            NO	nvarchar
+-- Person	MiddleName	            YES	nvarchar
+-- Person	LastName	            NO	nvarchar
+-- Person	Suffix	                YES	nvarchar
+-- Person	EmailPromotion	        NO	int
+-- Person	AdditionalContactInfo	YES	xml
+-- Person	Demographics	        YES	xml
+-- Person	rowguid	                NO	uniqueidentifier
+-- Person	ModifiedDate	        NO	datetime
+
 SELECT count(NameStyle) FROM Person.Person
 
 -- Index Scan de AK_PERSON_ROWGUID
 -- El motor de SQL Server obtiene una lista de todos los valores rowguid, y para cada uno, obtiene su correspondiente BusinessEntityID. 
 -- Se obtienen todos los rowguid + BusinessEntityID.
+-- Como el NameStyle no es nuulleable, con agarrar cualquuier cosa que me diga la cantidad de rows, alcanza.
 
 SELECT count(Title) FROM Person.Person
 
 -- Clustered Index Scan
+-- El titulo puede ser nulleable por lo que hay que traer la fila entera para comparar si es null o no (Mucho laburo)
+
+-- 7
+
+-- JobCandidate	BusinessEntityID	IX_JobCandidate_BusinessEntityID	NONCLUSTERED	0
+-- JobCandidate	JobCandidateID	    PK_JobCandidate_JobCandidateID	    CLUSTERED	    1
+
+-- JobCandidate	JobCandidateID	    NO	int
+-- JobCandidate	BusinessEntityID	YES	int
+-- JobCandidate	Resume	            YES	xml
+-- JobCandidate	ModifiedDate	    NO	datetime
+
+
+-- Employee	LoginID	            AK_Employee_LoginID	                            NONCLUSTERED	1
+-- Employee	NationalIDNumber	AK_Employee_NationalIDNumber	                NONCLUSTERED	1
+-- Employee	rowguid	            AK_Employee_rowguid	                            NONCLUSTERED	1
+-- Employee	OrganizationNode	IX_Employee_OrganizationLevel_OrganizationNode	NONCLUSTERED	0
+-- Employee	OrganizationLevel	IX_Employee_OrganizationLevel_OrganizationNode	NONCLUSTERED	0
+-- Employee	OrganizationNode	IX_Employee_OrganizationNode	                NONCLUSTERED	0
+-- Employee	BusinessEntityID	PK_Employee_BusinessEntityID	                CLUSTERED	    1
+
+-- Employee	BusinessEntityID	NO	int
+-- Employee	NationalIDNumber	NO	nvarchar
+-- Employee	LoginID	            NO	nvarchar
+-- Employee	OrganizationNode	YES	hierarchyid
+-- Employee	OrganizationLevel	YES	smallint
+-- Employee	JobTitle	        NO	nvarchar
+-- Employee	BirthDate	        NO	date
+-- Employee	MaritalStatus	    NO	nchar
+-- Employee	Gender	            NO	nchar
+
+SELECT jc.Resume 
+FROM HumanResources.JobCandidate jc
+INNER JOIN HumanResources.Employee e on jc.BusinessEntityID = e.BusinessEntityID
+ORDER BY e.BusinessEntityID, jc.JobCandidateID
+
+-- Se escanean los JobCandidate (tenemos que revisar todos)
+-- Se Ordenan
+-- Para cada JobCandidate, se seekea el employe que comparte el BusinessEntityID
+-- Asumo que se hace un nested loop porque las tablas son pequeñas.
+-- Correccion, es por el seek. Es mas efectivo hacer nested loop join con seek que un merge join. O(N*log(M)) < O(N + M).
+-- Se ordena porqe el orden tiene que ser BusinessEntiyID, JobCandidateID. La tabla de Employee ya esta ordenada por BusinessEntityID.
+-- La tabla JobCandidateID no esta ordenada.
+-- Queremos el resume, por lo que estamos obligados a usar el clustered index scan pues no hay ningun nonclusterd index del resume.
+
+SELECT JobCandidateID 
+FROM HumanResources.JobCandidate jc
+INNER JOIN HumanResources.Employee e on jc.BusinessEntityID =e.BusinessEntityID
+ORDER BY e.BusinessEntityID, jc.JobCandidateID
+ 
+-- Se escanea la non clustered index que nos da BusinessEntityID y JobCandidateID
+-- Para cada BusinessEntityID, hacemos un clustered index seek.
+-- Como nos piden el JobCandidateID (pertenece a la non clustered index), no hace falta ordenar. La non clustered index de BusinessEntityID esta ordenada!
+-- Asumo que como las claves son (BusinessEntityID, JobCandidateID), estan ordenadas por lo primero y luego lo segundo.
+-- Esto implica que solo hay que hacer el producto cartesiano donde se igualen las filas con la tabla de Employee.
+-- Creeria que no se usa el merge Join porque son tablas chicas :(
