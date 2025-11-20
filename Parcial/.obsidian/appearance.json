@@ -1,0 +1,13 @@
+{
+  "cssTheme": "Minimal",
+  "accentColor": "#89b4fa",
+  "baseFontSize": 17,
+  "showViewHeader": false,
+  "showRibbon": true,
+  "theme": "moonstone",
+  "enabledCssSnippets": [
+    "headings"
+  ],
+  "textFontFamily": "Arial Narrow",
+  "monospaceFontFamily": "JetBrainsMono Nerd Font"
+}

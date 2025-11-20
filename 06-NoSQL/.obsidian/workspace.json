@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "d59f9e37ef3473ea",
+        "id": "0a1a89527b88960d",
         "type": "tabs",
         "children": [
           {
-            "id": "7115bdaba975fddc",
+            "id": "0e9cf47e9b647c33",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,20 +19,6 @@
               },
               "icon": "lucide-file",
               "title": "Ejercicios"
-            }
-          },
-          {
-            "id": "8f283864bd85d07b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Recuperabilidad.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Recuperabilidad"
             }
           }
         ]
@@ -172,64 +158,65 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "tldraw:Create new tldrawing": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false,
       "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "templater-obsidian:Templater": false,
+      "tldraw:Create new tldrawing": false
     }
   },
-  "active": "7115bdaba975fddc",
+  "active": "0e9cf47e9b647c33",
   "lastOpenFiles": [
-    "Tipos de Historias.md",
-    "Recuperabilidad.md",
     "Ejercicios.md",
-    "ModeloPesimista.pdf",
-    "Control de Concurrencia.md",
-    "ProtocolosMultiversionParte2.pdf",
-    "TimeStamp.md",
-    "Serializabilidad.md",
-    "ModeloOptimistaMonoversion.pdf",
-    "Control de Multiversion.md",
-    "assets/drawing2025-10-13 5.07AM.md",
-    "assets/Pasted image 20251013151745.png",
-    "assets/Pasted image 20251013151224.png",
-    "assets/8743c916-054e-414c-83dd-f113247891e2-tldrawFile.png",
-    "assets/drawing2025-10-13 1.47AM.md",
-    "assets/e0b4c2b5-826f-4348-a002-f9a5a86c1dec-tldrawFile.png",
-    "assets/drawing2025-10-13 1.28AM.md",
-    "assets/drawing2025-10-13 12.55AM.md",
-    "assets/d712bb10-c751-4b44-9f66-f0842c0c6583-tldrawFile.png",
-    "assets/drawing2025-10-13 12.55AM (0).md",
-    "assets/drawing2025-10-13 12.38AM.md",
-    "assets/679b8a1b-14fb-4cf0-80cd-c8a56528e2d0-tldrawFile.png",
-    "assets/drawing2025-10-12 11.54PM.md",
-    "assets/173e3374-deb8-4be4-916b-d9ecbfa025f1-tldrawFile.png",
-    "assets/drawing2025-10-12 10.16PM.md",
-    "assets/ad985ef5-a721-4766-bf05-848d99dd8235-tldrawFile.png",
-    "assets/drawing2025-10-12 9.23PM.md",
-    "assets/4b47a136-bcb6-41b4-b930-6815390fb28b-tldrawFile.png",
-    "assets/drawing2025-10-12 6.34PM.md",
-    "assets/7dfdf910-323a-4a89-a7f1-15579febe70e-tldrawFile.png",
+    "AAA.md",
+    "assets/Pasted image 20251109224457.png",
+    "assets/Pasted image 20251109224237.png",
+    "assets/Pasted image 20251109223954.png",
+    "assets/Pasted image 20251109222400.png",
+    "Proyectos.md",
+    "REST APIs.md",
+    "Estandar Minimalista.md",
+    "Error handling in GO.md",
+    "Definicion de objetos.md",
+    "Hexagonal Arquitecture.md",
+    "TDD in DDD + Hexagonal Arquitecture.md",
     "Templates/mini-essay-template.md",
-    "Untitled 1.md",
-    "PO-Sistemas-KerbsOctavio.md",
     "Presentation Layer.md",
+    "PO-Sistemas-KerbsOctavio.md",
+    "FreeRTOS Scheduler.md",
+    "FreeRTOS Projects.md",
+    "assets/drawing2025-11-01 5.19AM.md",
+    "assets/Pasted image 20251101052556.png",
+    "Tipos de Historias.md",
+    "Untitled 1.md",
     "assets/drawing2025-10-12 12.09AM.md",
     "assets/drawing2025-10-12 12.03AM.md",
     "Transport Layer.md",
-    "Proyectos.md",
+    "SQL.md",
+    "Session Layer.md",
+    "Physical Layer.md",
+    "OSI Model.md",
+    "FreeRTOS Naming Conventions.md",
+    "FreeRTOS Heap Memory Managment.md",
+    "assets/Pasted image 20250920200109.png",
     "Sistemas Operativos - Sincronizacion entre Procesos - 2C2024 - Kerbs Octavio Dario.pdf",
     "snippets/headings.css",
     "snippets",
+    "assets/Pasted image 20250915025620.png",
+    "assets/Pasted image 20250914232648.png",
+    "assets/Pasted image 20250725125843.png",
+    "assets/Pasted image 20250725124643.png",
     "Excalidraw",
     "assets",
     "Untitled.canvas",
     "Metadata",
-    "Old Notes/SoftwareDesign"
+    "Old Notes/SoftwareDesign",
+    "Old Notes/Java",
+    "Old Notes/Essays",
+    "Old Notes/Deep Learning/assets"
   ]
 }
